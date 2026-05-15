@@ -57,6 +57,9 @@ bash <(curl -sL kejilion.sh) tw
 ***
 
 ## 💖 支持我們
+
+> **⚠️ 注意：kejilion.sh 暫無備案證明，尚未在國內備案。**
+
 覺得腳本還可以 USTD TRC20 打賞
 
 <strong style="color: navy;">TCP3PLGUTG9Z4z4tnHHSLbw5bgp8NXhTT3</strong>

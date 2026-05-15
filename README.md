@@ -140,6 +140,9 @@ bash <(curl -sL kejilion.sh) en
 <br><br>
 
 ## 💖 支持我们 (Support Us)
+
+> **⚠️ 注意：kejilion.sh 暂无备案证明，尚未在国内备案。**
+
 觉得脚本还可以 USTD TRC20 打赏
 
 Feel free to support us with USTD TRC20 donations.
