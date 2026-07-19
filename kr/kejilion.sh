@@ -2324,7 +2324,7 @@ check_nginx_compression() {
 
 	# zstd가 켜져 있고 주석 처리가 해제되어 있는지 확인하세요. (전체 줄은 zstd on으로 시작됩니다.)
 	if grep -qE '^\s*zstd\s+on;' "$CONFIG_FILE"; then
-		zstd_status="zstd 압축이 활성화되었습니다"
+		zstd_status="zstd 압축이 켜져 있습니다"
 	else
 		zstd_status=""
 	fi
@@ -2805,7 +2805,7 @@ clear_host_port_rules() {
 	fi
 
 
-	# 다른 모든 IP의 접근을 차단하는 규칙을 삭제하세요.
+	# 다른 모든 IP의 접근을 차단하는 규칙을 해제하세요.
 	if iptables -C INPUT -p udp --dport "$port" -j DROP &>/dev/null; then
 		iptables -D INPUT -p udp --dport "$port" -j DROP
 	fi
@@ -3420,10 +3420,10 @@ nginx_install_status() {
 
 ldnmp_web_on() {
 	  clear
-	  echo "당신의$webname건설되었습니다!"
+	  echo "당신의$webname지어졌습니다!"
 	  echo "https://$yuming"
 	  echo "------------------------"
-	  echo "$webname설치정보는 다음과 같습니다."
+	  echo "$webname설치 정보는 다음과 같습니다."
 
 }
 
@@ -3433,7 +3433,7 @@ nginx_web_on() {
 	local ipv4_pattern='^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
 	local ipv6_pattern='^(([0-9A-Fa-f]{1,4}:){1,7}:|([0-9A-Fa-f]{1,4}:){7,7}[0-9A-Fa-f]{1,4}|::1)$'
 
-	echo "당신의$webname건설되었습니다!"
+	echo "당신의$webname지어졌습니다!"
 
 	if [[ "$yuming" =~ $ipv4_pattern || "$yuming" =~ $ipv6_pattern ]]; then
 		mv /home/web/conf.d/"$yuming".conf /home/web/conf.d/"${yuming}_${access_port}".conf
@@ -3773,7 +3773,7 @@ ldnmp_Proxy_backend_stream() {
 
 	docker exec nginx nginx -s reload
 	clear
-	echo "당신의$webname건설되었습니다!"
+	echo "당신의$webname지어졌습니다!"
 	echo "------------------------"
 	echo "방문 주소:"
 	ip_address
@@ -6636,7 +6636,7 @@ linux_trash() {
 
 	clear
 	echo -e "현재 휴지통${trash_status}"
-	echo -e "활성화한 후에는 중요한 파일이 실수로 삭제되는 것을 방지하기 위해 rm으로 삭제된 파일이 먼저 휴지통에 들어갑니다!"
+	echo -e "활성화한 후에는 중요한 파일이 실수로 삭제되는 것을 방지하기 위해 rm으로 삭제된 파일이 먼저 휴지통에 저장됩니다!"
 	echo "------------------------------------------------"
 	ls -l --color=auto "$TRASH_DIR" 2>/dev/null || echo "휴지통이 비어 있습니다."
 	echo "------------------------"
@@ -9281,7 +9281,7 @@ linux_ldnmp() {
 	  echo "사용자 이름: 관리자"
 	  echo "비밀번호: 관리자"
 	  echo "------------------------"
-	  echo "로그인 시 오른쪽 상단에 빨간색 error0이 나타나는 경우, 다음 명령어를 사용해주세요."
+	  echo "로그인 시 오른쪽 상단에 빨간색 error0이 나타나는 경우, 다음 명령어를 사용하시기 바랍니다."
 	  echo "유니콘 숫자카드가 왜 이렇게 귀찮고 이런 문제가 있는지에 대해서도 너무 화가 납니다!"
 	  echo "sed -i 's/ADMIN_HTTPS=false/ADMIN_HTTPS=true/g' /home/web/html/$yuming/dujiaoka/.env"
 
@@ -10506,7 +10506,7 @@ for name, provider in list(providers.items()):
         provider['models'] = new_models
         changed = True
 
-    summary.append(f'✅ {name}: {len(add_ids)} 추가, 삭제됨 {len(removed_ids)}, 현재 {len(new_models)}')
+    summary.append(f'✅ {name}: {len(add_ids)} 추가됨, 삭제됨 {len(removed_ids)}, 현재 {len(new_models)}')
 
     if added_ids:
         summary.append(f'➕ 새 모델 추가({len(add_ids)}):')
@@ -11482,7 +11482,7 @@ PY
 	}
 
 	openclaw_api_providers_showcase() {
-		send_stats "OpenClaw API 공급업체 권장 사항"
+		send_stats "OpenClaw API 공급업체 권장사항"
 
 		clear
 		echo ""
@@ -12104,7 +12104,7 @@ PYTHON_EOF
 				fi
 			fi
 
-			echo "⚠️ 플러그인이 설치되었지만,plugins.allow의 동기화에 실패했습니다. 수동으로 확인하십시오:$config_file"
+			echo "⚠️ 플러그인이 설치되었지만,plugins.allow의 동기화에 실패했습니다. 수동으로 확인하세요.$config_file"
 			return 1
 		}
 
@@ -12683,7 +12683,7 @@ openclaw_json_get_bool() {
 					break_end
 					;;
 				3)
-					read -e -p "WhatsApp에서 수신한 연결 코드(예: NYA99R2F)를 입력하세요(종료하려면 0 입력)." code
+					read -e -p "WhatsApp에서 받은 연결 코드(예: NYA99R2F)를 입력하세요(종료하려면 0 입력)." code
 					if [ "$code" = "0" ]; then continue; fi
 					if [ -z "$code" ]; then echo "오류: 연결 코드는 비워둘 수 없습니다."; sleep 1; continue; fi
 					openclaw pairing approve whatsapp "$code"
@@ -13391,7 +13391,7 @@ $agent_lines
 EOF
 		openclaw gateway restart
 		echo "✅ 인덱스가 재구축되었으며 게이트웨이가 자동으로 다시 시작되었습니다."
-		echo "✅ 이미${count}에이전트가 인덱스를 다시 작성합니다."
+		echo "✅ 이미${count}에이전트가 색인을 다시 작성합니다."
 		echo ""
 		openclaw_memory_render_status
 	}
@@ -13682,7 +13682,7 @@ PY
 		elif command -v wget >/dev/null 2>&1; then
 			wget -qO- https://bun.sh/install | bash
 		else
-			echo "❌ 컬이나 wget이 감지되지 않아 롤빵을 설치할 수 없습니다."
+			echo "❌ 컬 또는 wget이 감지되지 않아 롤빵을 설치할 수 없습니다."
 			return 1
 		fi
 		if [ -d "$HOME/.bun/bin" ]; then
@@ -13776,7 +13776,7 @@ PY
 		else
 			echo "가능한 트래픽/디스크 사용량: 실제 상황에 따라 다름"
 		fi
-		echo "확인 후 자동으로 설치/다운로드하고, 구성을 작성하고, 인덱스를 작성하고, 게이트웨이를 다시 시작합니다."
+		echo "확인 후 자동으로 설치/다운로드, 구성 작성, 색인 작성 및 게이트웨이를 다시 시작합니다."
 		echo "고급 옵션: 구성만 작성하려면 구성을 입력하세요(설치 없음, 다운로드 없음, 인덱싱 없음, 다시 시작 없음)."
 		read -e -p "계속하려면 yes를 입력하세요(기본값 N)." confirm_step
 		case "$confirm_step" in
@@ -14073,7 +14073,7 @@ EOF
 			fi
 		else
 			echo "includeDefaultMemory 구성이 정상입니다."
-			echo "실행 예정: 기존 인덱스 정리 → 모든 에이전트 인덱스 완전 재구축"
+			echo "실행 예정: 기존 인덱스 정리 → 모든 에이전트 인덱스 완전히 재구축"
 			echo ""
 			read -e -p "실행을 확인하시겠습니까? (예/아니요):" confirm_fix
 			if [[ ! "$confirm_fix" =~ ^[Nn]$ ]]; then
@@ -14201,7 +14201,7 @@ EOF
 			fi
 		fi
 		if ! [[ "$start_line" =~ ^[0-9]+$ ]] || ! [[ "$count" =~ ^[0-9]+$ ]]; then
-			echo "❌ 유효한 번호를 입력하세요."
+			echo "❌ 유효한 숫자를 입력하세요."
 			return 1
 		fi
 		if [ "$start_line" -lt 1 ]; then
@@ -15265,7 +15265,7 @@ print("✅멀티에이전트 헬스체크 완료")
 
 	openclaw_multiagent_cleanup_sessions() {
 		openclaw_multiagent_require_openclaw || return 1
-		echo "만료되었거나 중복된 세션 데이터를 곧 정리 중입니다..."
+		echo "만료되거나 중복된 세션 데이터를 곧 정리합니다..."
 		read -e -p "확인하려면 yes를 입력하세요." confirm
 		[ "$confirm" != "yes" ] && { echo "취소"; return 0; }
 		openclaw sessions cleanup
@@ -15599,7 +15599,7 @@ while true; do
 
 	  echo -e "${gl_kjlan}1.   ${color1}파고다 패널 공식 버전${gl_kjlan}2.   ${color2}aaPanel Pagoda 국제 버전"
 	  echo -e "${gl_kjlan}3.   ${color3}1패널 차세대 관리 패널${gl_kjlan}4.   ${color4}NginxProxyManager 시각화 패널"
-	  echo -e "${gl_kjlan}5.   ${color5}OpenList 다중 저장소 파일 목록 프로그램${gl_kjlan}6.   ${color6}Ubuntu 원격 데스크톱 웹 에디션"
+	  echo -e "${gl_kjlan}5.   ${color5}OpenList 다중 저장소 파일 목록 프로그램${gl_kjlan}6.   ${color6}Ubuntu 원격 데스크톱 웹 버전"
 	  echo -e "${gl_kjlan}7.   ${color7}나타 프로브 VPS 모니터링 패널${gl_kjlan}8.   ${color8}QB 오프라인 BT 자기 다운로드 패널"
 	  echo -e "${gl_kjlan}9.   ${color9}Poste.io 메일 서버 프로그램${gl_kjlan}10.  ${color10}RocketChat 다자간 온라인 채팅 시스템"
 	  echo -e "${gl_kjlan}-------------------------"
@@ -15890,7 +15890,7 @@ while true; do
 			check_docker_app
 			check_docker_image_update $docker_name
 			clear
-			echo -e "나타 모니터링$check_docker $update_status"
+			echo -e "네자 모니터링$check_docker $update_status"
 			echo "오픈 소스, 가볍고 사용하기 쉬운 서버 모니터링 및 운영 및 유지 관리 도구"
 			echo "공식 웹사이트 구축 문서: https://nezha.wiki/guide/dashboard.html"
 			if docker ps -a --format '{{.Names}}' 2>/dev/null | grep -q "$docker_name"; then
@@ -19897,7 +19897,7 @@ log_menu() {
 				echo "⚠️ 일지를 청소하세요(안전한 방법)"
 				echo "1) 최근 7일을 보관"
 				echo "2) 최근 3일을 보관한다"
-				echo "3) 최대 로그 크기를 500M로 제한하십시오."
+				echo "3) 최대 로그 크기를 500M로 제한합니다."
 				read -erp "청소 방법을 선택하세요:" c
 				case $c in
 					1) journalctl --vacuum-time=7d ;;
@@ -20003,7 +20003,7 @@ env_menu() {
 		echo "=========== 시스템 환경 변수 관리 =========="
 		echo "현재 사용자:$USER"
 		echo "--------------------------------------"
-		echo "1. 현재 일반적으로 사용되는 환경변수를 확인하세요."
+		echo "1. 현재 일반적으로 사용되는 환경변수를 확인한다"
 		echo "2. ~/.bashrc 보기"
 		echo "3. ~/.profile 보기"
 		echo "4. ~/.bashrc 편집"
@@ -20125,7 +20125,7 @@ linux_Settings() {
 	  echo -e "${gl_kjlan}3.   ${gl_bai}사용자 비밀번호 로그인 모드${gl_kjlan}4.   ${gl_bai}지정된 버전의 Python 설치"
 	  echo -e "${gl_kjlan}5.   ${gl_bai}모든 포트 열기${gl_kjlan}6.   ${gl_bai}SSH 연결 포트 수정"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}DNS 주소 최적화${gl_kjlan}8.   ${gl_bai}한 번의 클릭으로 시스템을 다시 설치${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}ROOT 계정을 비활성화하고 새 계정을 만듭니다.${gl_kjlan}10.  ${gl_bai}우선 순위 ipv4/ipv6 전환"
+	  echo -e "${gl_kjlan}9.   ${gl_bai}ROOT 계정을 비활성화하고 새 계정을 만듭니다.${gl_kjlan}10.  ${gl_bai}우선순위 ipv4/ipv6 전환"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}11.  ${gl_bai}항만점유현황 확인${gl_kjlan}12.  ${gl_bai}가상 메모리 크기 수정"
 	  echo -e "${gl_kjlan}13.  ${gl_bai}사용자 관리${gl_kjlan}14.  ${gl_bai}사용자/비밀번호 생성기"
@@ -20379,8 +20379,8 @@ EOF
 						;;
 					2)
 						rm -f /etc/gai.conf
-						echo "IPv6 우선순위로 전환됨"
-						send_stats "IPv6 우선순위로 전환됨"
+						echo "먼저 IPv6로 전환됨"
+						send_stats "먼저 IPv6로 전환됨"
 						;;
 
 					3)
@@ -21639,7 +21639,7 @@ echo "------------------------"
 echo -e "${gl_zi}V.PS 월 6.9달러 도쿄 소프트뱅크 2코어 1G 메모리 20G 하드드라이브 월 1T 트래픽${gl_bai}"
 echo -e "${gl_bai}URL: https://vps.hosting/cart/tokyo-cloud-kvm-vps/?id=148&?affid=1355&?affid=1355${gl_bai}"
 echo "------------------------"
-echo -e "${gl_kjlan}더 인기 있는 VPS 혜택${gl_bai}"
+echo -e "${gl_kjlan}더 인기 있는 VPS 거래${gl_bai}"
 echo -e "${gl_bai}홈페이지: https://kejilion.pro/topvps/${gl_bai}"
 echo "------------------------"
 echo ""

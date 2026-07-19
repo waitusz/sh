@@ -260,7 +260,7 @@ remove() {
 	fi
 
 	for package in "$@"; do
-		echo -e "${gl_kjlan}アンインストール中$package...${gl_bai}"
+		echo -e "${gl_kjlan}アンインストールする$package...${gl_bai}"
 		if command -v dnf &>/dev/null; then
 			dnf remove -y "$package"
 		elif command -v yum &>/dev/null; then
@@ -867,12 +867,12 @@ open_port() {
 
 		if ! iptables -C INPUT -p udp --dport $port -j ACCEPT 2>/dev/null; then
 			iptables -I INPUT 1 -p udp --dport $port -j ACCEPT
-			echo "ポートがオープンしました$port"
+			echo "ポートがオープンされました$port"
 		fi
 	done
 
 	save_iptables_rules
-	send_stats "ポートがオープンしました"
+	send_stats "ポートがオープンされました"
 }
 
 
@@ -1750,7 +1750,7 @@ cf_purge_cache() {
 	# キャッシュをクリアするかどうかをユーザーに確認する
 	read -e -p "Cloudflareのキャッシュをクリアする必要がありますか? (y/n):" answer
 	if [[ "$answer" == "y" ]]; then
-	  echo "CF 情報は次の場所に保存されます。$CONFIG_FILECF 情報は後で変更できます。"
+	  echo "CF情報は以下に保存されます。$CONFIG_FILECF 情報は後で変更できます。"
 	  read -e -p "API_TOKEN を入力してください:" API_TOKEN
 	  read -e -p "CF ユーザー名を入力してください:" EMAIL
 	  read -e -p "zone_id を入力してください (複数の場合はスペースで区切ります):" -a ZONE_IDS
@@ -2324,7 +2324,7 @@ check_nginx_compression() {
 
 	# zstd がオンでコメントが解除されているかどうかを確認します (行全体が zstd on で始まります)。
 	if grep -qE '^\s*zstd\s+on;' "$CONFIG_FILE"; then
-		zstd_status="zstd圧縮が有効になっています"
+		zstd_status="zstd圧縮がオンになっています"
 	else
 		zstd_status=""
 	fi
@@ -2620,7 +2620,7 @@ block_container_port() {
 		iptables -I DOCKER-USER -p tcp -s "$allowed_ip" -d "$container_ip" -j ACCEPT
 	fi
 
-	# ローカルネットワーク127.0.0.0/8を確認して許可します。
+	# ローカルネットワーク127.0.0.0/8をチェックして許可します。
 	if ! iptables -C DOCKER-USER -p tcp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT &>/dev/null; then
 		iptables -I DOCKER-USER -p tcp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT
 	fi
@@ -2637,7 +2637,7 @@ block_container_port() {
 		iptables -I DOCKER-USER -p udp -s "$allowed_ip" -d "$container_ip" -j ACCEPT
 	fi
 
-	# ローカルネットワーク127.0.0.0/8を確認して許可します。
+	# ローカルネットワーク127.0.0.0/8をチェックして許可します。
 	if ! iptables -C DOCKER-USER -p udp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT &>/dev/null; then
 		iptables -I DOCKER-USER -p udp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT
 	fi
@@ -3016,7 +3016,7 @@ docker_app_plus() {
 				check_disk_space $app_size /home/docker
 
 				while true; do
-					read -e -p "アプリケーションの外部サービス ポートを入力し、Enter キーを押して、それをデフォルトで使用します。${docker_port}ポート：" app_port
+					read -e -p "アプリケーションの外部サービス ポートを入力し、Enter キーを押してデフォルトで使用します。${docker_port}ポート：" app_port
 					local app_port=${app_port:-${docker_port}}
 
 					if ss -tuln | grep -q ":$app_port "; then
@@ -4310,7 +4310,7 @@ generate_access_urls() {
 			done
 		fi
 
-		# HTTPS 構成を処理する
+		# HTTPS 構成の処理
 		for port in "${ports[@]}"; do
 			if [[ $port != "8055" && $port != "8056" ]]; then
 				local frps_search_pattern="${ipv4_address}:${port}"
@@ -5616,7 +5616,7 @@ bbrv3() {
 				
 				# 公式には、jammy、focal、bulseye、その他の古いシステムの apt サポートは完全に削除されました。
 				if echo "jammy focal bullseye buster" | grep -qw "$os_codename" || [ "$os_codename" = "releases" ]; then
-					echo -e "${gl_hong}XanMod は現在のシステムのサポートを正式に停止しました ($os_codename) の場合は、Debian12/Ubuntu24 以降にアップグレードしてください。${gl_bai}"
+					echo -e "${gl_hong}XanMod 官方已停止对当前系统($os_codename) の場合は、Debian12/Ubuntu24 以降にアップグレードしてください。${gl_bai}"
 					return 1
 				fi
 
@@ -5900,7 +5900,7 @@ elrepo() {
 		  echo "ビデオ紹介: https://www.bilibili.com/video/BV1mH4y1w7qA?t=529.2"
 		  echo "------------------------------------------------"
 		  echo "Red Hat シリーズのディストリビューション CentOS/RedHat/Alma/Rocky/oracle のみをサポートします"
-		  echo "Linux カーネルをアップグレードすると、システムのパフォーマンスとセキュリティが向上します。可能であれば試してみて、慎重に実稼働環境をアップグレードすることをお勧めします。"
+		  echo "Linux カーネルをアップグレードすると、システムのパフォーマンスとセキュリティが向上します。可能であれば試して、慎重に実稼働環境をアップグレードすることをお勧めします。"
 		  echo "------------------------------------------------"
 		  read -e -p "続行してもよろしいですか? (はい/いいえ):" choice
 
@@ -6519,7 +6519,7 @@ while true; do
   case $choice in
 	  1)
 		  update_locale "en_US.UTF-8" "en_US.UTF-8"
-		  send_stats "英語に切り替えてください"
+		  send_stats "英語に切り替えて"
 		  ;;
 	  2)
 		  update_locale "zh_CN.UTF-8" "zh_CN.UTF-8"
@@ -6824,7 +6824,7 @@ linux_backup() {
 			3) delete_backup ;;
 			*) break ;;
 		esac
-		read -e -p "Enter キーを押して続行します..."
+		read -e -p "続行するには Enter キーを押してください..."
 	done
 }
 
@@ -7324,7 +7324,7 @@ disk_manager() {
 			5) check_partition ;;
 			*) break ;;
 		esac
-		read -e -p "Enter キーを押して続行します..."
+		read -e -p "続行するには Enter キーを押してください..."
 	done
 }
 
@@ -7583,7 +7583,7 @@ rsync_manager() {
 			0) break ;;
 			*) echo "選択が無効です。もう一度お試しください。" ;;
 		esac
-		read -e -p "Enter キーを押して続行します..."
+		read -e -p "続行するには Enter キーを押してください..."
 	done
 }
 
@@ -8137,7 +8137,7 @@ docker_ssh_migration() {
 
 				# Compose プロジェクトがすでにパッケージ化されている場合は、スキップしてください
 				if [[ -n "${PACKED_COMPOSE_PATHS[$project_dir]}" ]]; then
-					echo -e "${gl_huang}プロジェクトの作成 [$project_name] すでにバックアップされているので、繰り返しのパッケージ化をスキップします...${gl_bai}"
+					echo -e "${gl_huang}プロジェクトの作成 [$project_name] すでにバックアップされているため、繰り返しのパッケージ化をスキップします...${gl_bai}"
 					continue
 				fi
 
@@ -8553,7 +8553,7 @@ linux_docker() {
 				  echo ""
 				  echo "ボリューム操作"
 				  echo "------------------------"
-				  echo "1. 新しいボリュームを作成します"
+				  echo "1. 新しいボリュームを作成する"
 				  echo "2. 指定したボリュームを削除します"
 				  echo "3. すべてのボリュームを削除します"
 				  echo "------------------------"
@@ -10343,7 +10343,7 @@ def rebind_defaults_before_delete(name):
         if ref_provider(val) == name:
             repl = get_replacement()
             if not repl:
-                summary.append(f'❌ {name}: {fk} はプロバイダーを指しますが、使用可能な代替モデルがないため、削除は中止されました')
+                summary.append(f'❌ {name}: {fk} はプロバイダーを指していますが、利用可能な代替モデルがないため、削除は中止されました')
                 return False
             defaults[fk] = repl
             changed = True
@@ -10422,7 +10422,7 @@ for name, provider in list(providers.items()):
             deleted = delete_provider_and_refs(name)
             if deleted:
                 send_stat('OpenClaw API の削除に失敗しましたプロバイダー確認')
-                summary.append(f'✅ {name}: ユーザーはプロバイダーと関連するすべてのモデル参照を削除することを確認しました')
+                summary.append(f'✅ {name}: ユーザーはプロバイダーとすべての関連モデル参照を削除することを確認しました')
         else:
             send_stat('OpenClaw API の削除に失敗しましたプロバイダーによって拒否されました')
             summary.append(f'ℹ️ {name}: ユーザーは削除を確認しておらず、既存のプロバイダー構成を保持しています。')
@@ -10442,7 +10442,7 @@ for name, provider in list(providers.items()):
     remote_set = set(remote_ids)
 
     if not remote_set:
-        fatal_errors.append(f'❌ {name} の上流の /models は空であるため、このプロバイダーにボトムアップ モデルを提供できません。')
+        fatal_errors.append(f'❌ {name} の上流 /models は空であるため、このプロバイダーにボトムアップ モデルを提供できません。')
         continue
 
     local_models = [m for m in model_list if isinstance(m, dict) and m.get('id')]
@@ -10826,7 +10826,7 @@ EOF
 
 		# 5. デフォルトのモデルを選択します
 		echo
-		read -erp "デフォルトのモデル ID (またはシリアル番号、最初のものを使用する場合は空白のままにしておきます) を入力してください:" input_model
+		read -erp "デフォルトのモデル ID (またはシリアル番号。最初のものを使用する場合は空白のままにします) を入力してください。" input_model
 
 		if [[ -z "$input_model" && -n "$available_models" ]]; then
 			default_model=$(echo "$available_models" | head -1)
@@ -11232,7 +11232,7 @@ PY2
 			echo "❌ 同期に失敗しました: 上流モデルが空であるか、同期後に使用可能なモデルがありません"
 			;;
 		*)
-			echo "❌ 同期に失敗しました: 設定ファイルの構造またはログ出力を確認してください。"
+			echo "❌ 同期に失敗しました: 構成ファイルの構造またはログ出力を確認してください。"
 			;;
 	esac
 
@@ -12267,7 +12267,7 @@ PYTHON_EOF
 					rm -rf "${HOME}/.openclaw/extensions/$plugin_id"
 					[ "$HOME" != "/root" ] && rm -rf "/root/.openclaw/extensions/$plugin_id"
 					if openclaw plugins install "$plugin_full"; then
-						echo "✅ ダウンロードが成功しました。アクティブ化されています..."
+						echo "✅ ダウンロードに成功しました。アクティブ化しています..."
 						if openclaw plugins enable "$plugin_id"; then
 							sync_openclaw_plugin_allowlist "$plugin_id"
 							success_list="$success_list $plugin_id"
@@ -12300,7 +12300,7 @@ PYTHON_EOF
 			[ -n "$skipped_list" ] && echo "⏭️スキップ:$skipped_list"
 
 			if [ "$changed" = true ]; then
-				echo "🔄 変更をロードするために OpenClaw サービスを再起動しています..."
+				echo "🔄 OpenClaw サービスを再起動して変更をロードしています..."
 				start_gateway
 			fi
 			break_end
@@ -12418,7 +12418,7 @@ PYTHON_EOF
 			[ -n "$skipped_list" ] && echo "⏭️スキップ:$skipped_list"
 
 			if [ "$changed" = true ]; then
-				echo "🔄 変更をロードするために OpenClaw サービスを再起動しています..."
+				echo "🔄 OpenClaw サービスを再起動して変更をロードしています..."
 				start_gateway
 			fi
 			break_end
@@ -13777,7 +13777,7 @@ PY
 			echo "考えられるトラフィック/ディスク使用量: 実際の状況によって異なります"
 		fi
 		echo "確認後、自動的にインストール/ダウンロード、構成の書き込み、インデックスの構築、ゲートウェイの再起動が行われます。"
-		echo "詳細オプション: config と入力して構成のみを書き込みます (インストールなし、ダウンロードなし、インデックス作成なし、再起動なし)。"
+		echo "詳細オプション: config を入力して構成のみを書き込みます (インストールなし、ダウンロードなし、インデックス作成なし、再起動なし)。"
 		read -e -p "続行することを確認するには「yes」と入力します (デフォルトは N):" confirm_step
 		case "$confirm_step" in
 			yes|YES)
@@ -14191,7 +14191,7 @@ EOF
 		echo "書類：$file"
 		echo "総行数:$total_lines"
 		read -e -p "開始行を入力してください (Enter キーを押すとデフォルトで行の終わりになります)$default_linesわかりました）：" start_line
-		read -e -p "表示する行数を入力してください (デフォルトでは Enter を押します)$default_lines）: " count
+		read -e -p "表示する行数を入力してください (デフォルトでは Enter キーを押します)$default_lines）: " count
 		[ -z "$count" ] && count=$default_lines
 		if [ -z "$start_line" ]; then
 			if [ "$total_lines" -le "$count" ]; then
@@ -14286,7 +14286,7 @@ EOF
 			echo "3. インデックス修復（インデックス例外）"
 			echo "4. メモリ ソリューション (QMD/ローカル/自動)"
 			echo "5. 検索テスト (インデックスが機能していることを確認します)"
-			echo "6. ディープステートの検出 (組み込みモデルのチェック)"
+			echo "6. ディープステート検出 (組み込みモデルのチェック)"
 			echo "0. 前のレベルに戻ります"
 			echo "---------------------------------------"
 			read -e -p "選択肢を入力してください:" memory_choice
@@ -14648,7 +14648,7 @@ except Exception:
     print("(設定ファイルの解析に失敗しました)")
 '
 		else
-			echo "(未構成、システムの組み込みセキュリティ ポリシーの使用が強制されます)"
+			echo "(未構成。システムの組み込みセキュリティ ポリシーの使用が強制されます)"
 		fi
 	}
 
@@ -14668,7 +14668,7 @@ except Exception:
 		openclaw_permission_update_exec_approvals "allowlist" "on-miss" "deny"
 
 		openclaw_permission_restart_gateway
-		echo -e "${gl_lv}✅ 標準の安全モードに切り替えられました (すべての危険なコマンドは UI/TG を通じて承認を求めます)${gl_bai}"
+		echo -e "${gl_lv}✅ 標準セーフティモードに切り替えられました (すべての危険なコマンドは UI/TG を通じて承認を求めます)${gl_bai}"
 	}
 
 	openclaw_permission_apply_developer() {
@@ -14705,7 +14705,7 @@ except Exception:
 		openclaw_permission_update_exec_approvals "full" "off" "full"
 
 		openclaw_permission_restart_gateway
-		echo -e "${gl_lv}✅ 完全オープン モードに切り替えられました (警告: すべてのホスト コマンド インターセプトの有効期限が切れており、エージェントには最高の権限が与えられています)${gl_bai}"
+		echo -e "${gl_lv}✅ 完全オープン モードに切り替えられています (警告: すべてのホスト コマンドのインターセプトの有効期限が切れており、エージェントには最高の権限が与えられています)${gl_bai}"
 	}
 
 	openclaw_permission_restore_official_defaults() {
@@ -15599,7 +15599,7 @@ while true; do
 
 	  echo -e "${gl_kjlan}1.   ${color1}パゴダパネル正式版${gl_kjlan}2.   ${color2}aaPanel パゴダ国際版"
 	  echo -e "${gl_kjlan}3.   ${color3}1Panel 新世代管理パネル${gl_kjlan}4.   ${color4}NginxProxyManager 視覚化パネル"
-	  echo -e "${gl_kjlan}5.   ${color5}OpenList マルチストア ファイル リスト プログラム${gl_kjlan}6.   ${color6}Ubuntu リモート デスクトップ Web エディション"
+	  echo -e "${gl_kjlan}5.   ${color5}OpenList マルチストア ファイル リスト プログラム${gl_kjlan}6.   ${color6}Ubuntu リモート デスクトップ Web バージョン"
 	  echo -e "${gl_kjlan}7.   ${color7}Nezha Probe VPS 監視パネル${gl_kjlan}8.   ${color8}QBオフラインBT磁気ダウンロードパネル"
 	  echo -e "${gl_kjlan}9.   ${color9}Poste.io メール サーバー プログラム${gl_kjlan}10.  ${color10}RocketChat 複数人オンライン チャット システム"
 	  echo -e "${gl_kjlan}-------------------------"
@@ -15890,7 +15890,7 @@ while true; do
 			check_docker_app
 			check_docker_image_update $docker_name
 			clear
-			echo -e "ネザ監視$check_docker $update_status"
+			echo -e "ネザモニタリング$check_docker $update_status"
 			echo "オープンソースの軽量で使いやすいサーバー監視および運用保守ツール"
 			echo "公式 Web サイト構築ドキュメント: https://nezha.wiki/guide/dashboard.html"
 			if docker ps -a --format '{{.Names}}' 2>/dev/null | grep -q "$docker_name"; then
@@ -15899,7 +15899,7 @@ while true; do
 			fi
 			echo ""
 			echo "------------------------"
-			echo "1. 使用する"
+			echo "1. 使用方法"
 			echo "------------------------"
 			echo "0. 前のメニューに戻る"
 			echo "------------------------"
@@ -18323,7 +18323,7 @@ while true; do
 
 		}
 
-		local docker_describe="オープンソース、無料の自社構築ライブ ブロードキャスト プラットフォーム"
+		local docker_describe="オープンソースの無料の自作ライブ ブロードキャスト プラットフォーム"
 		local docker_url="公式サイト紹介：https://owncast.online"
 		local docker_use="echo \"管理者ページにアクセスするには、アクセス アドレスの後に /admin を続けます\""
 		local docker_passwd="echo \"初期アカウント: admin 初期パスワード: abc123 ログイン後、時間内にログイン パスワードを変更してください\""
@@ -19258,7 +19258,7 @@ discourse,yunsou,ahhhhfs,nsgame,gying" \
 
 		}
 
-		local docker_describe="これは、強力なマルチフォーマット ファイル変換ツールです (ドキュメント、画像、オーディオ、ビデオなどをサポート)。ドメイン名アクセスを追加することを強くお勧めします。"
+		local docker_describe="これは強力なマルチフォーマット ファイル変換ツールです (ドキュメント、画像、オーディオ、ビデオなどをサポート)。ドメイン名アクセスを追加することを強くお勧めします。"
 		local docker_url="プロジェクトアドレス:${gh_https_url}github.com/c4illin/ConvertX"
 		local docker_use=""
 		local docker_passwd=""
@@ -19778,7 +19778,7 @@ net_menu() {
 				else
 					echo "✘ ネットワークカードが存在しません"
 				fi
-				read -erp "Enter キーを押して続行します..."
+				read -erp "続行するには Enter キーを押してください..."
 				;;
 			2)
 				send_stats "ネットワークカードを無効にする"
@@ -19788,7 +19788,7 @@ net_menu() {
 				else
 					echo "✘ ネットワークカードが存在しません"
 				fi
-				read -erp "Enter キーを押して続行します..."
+				read -erp "続行するには Enter キーを押してください..."
 				;;
 			3)
 				send_stats "ネットワークカードの詳細を表示する"
@@ -19800,7 +19800,7 @@ net_menu() {
 				else
 					echo "✘ ネットワークカードが存在しません"
 				fi
-				read -erp "Enter キーを押して続行します..."
+				read -erp "続行するには Enter キーを押してください..."
 				;;
 			4)
 				send_stats "ネットワークカード情報を更新する"
@@ -19826,7 +19826,7 @@ log_menu() {
 		echo "[/var/logディレクトリ占有]"
 		du -sh /var/log 2>/dev/null
 		echo
-		echo "【日記帳の職業】"
+		echo "【日記ログ職業】"
 		journalctl --disk-usage 2>/dev/null
 		echo "========================================"
 	}
@@ -19851,7 +19851,7 @@ log_menu() {
 				read -erp "最新のログ行を表示しますか? [デフォルト 100]:" lines
 				lines=${lines:-100}
 				journalctl -n "$lines" --no-pager
-				read -erp "Enter キーを押して続行します..."
+				read -erp "続行するには Enter キーを押してください..."
 				;;
 			2)
 				send_stats "指定したサービスログを表示する"
@@ -19861,7 +19861,7 @@ log_menu() {
 				else
 					echo "✘ サービスが存在しないか、ログがありません"
 				fi
-				read -erp "Enter キーを押して続行します..."
+				read -erp "続行するには Enter キーを押してください..."
 				;;
 			3)
 				send_stats "ログイン/セキュリティログの表示"
@@ -19876,7 +19876,7 @@ log_menu() {
 				else
 					echo "セキュリティログファイルが見つかりません"
 				fi
-				read -erp "Enter キーを押して続行します..."
+				read -erp "続行するには Enter キーを押してください..."
 				;;
 			4)
 				send_stats "リアルタイム追跡ログ"
@@ -19964,7 +19964,7 @@ env_menu() {
 
 		echo
 		echo "==============================================="
-		read -erp "Enter キーを押して続行します..."
+		read -erp "続行するには Enter キーを押してください..."
 	}
 
 
@@ -19979,7 +19979,7 @@ env_menu() {
 		else
 			echo "ファイルが存在しません:$file"
 		fi
-		read -erp "Enter キーを押して続行します..."
+		read -erp "続行するには Enter キーを押してください..."
 	}
 
 	edit_file() {
@@ -19995,7 +19995,7 @@ env_menu() {
 		source "$BASHRC"
 		source "$PROFILE"
 		echo "✔ 環境変数がリロードされました"
-		read -erp "Enter キーを押して続行します..."
+		read -erp "続行するには Enter キーを押してください..."
 	}
 
 	while true; do
@@ -20006,7 +20006,7 @@ env_menu() {
 		echo "1. 現在一般的に使用されている環境変数を確認します。"
 		echo "2. ~/.bashrc を表示する"
 		echo "3. ~/.profile を表示する"
-		echo "4. ~/.bashrc を編集します"
+		echo "4. ~/.bashrc を編集する"
 		echo "5. ~/.profile を編集する"
 		echo "6. 環境変数（ソース）をリロードします。"
 		echo "--------------------------------------"
@@ -20379,8 +20379,8 @@ EOF
 						;;
 					2)
 						rm -f /etc/gai.conf
-						echo "IPv6優先に切り替えました"
-						send_stats "IPv6優先に切り替えました"
+						echo "最初にIPv6に切り替えました"
+						send_stats "最初にIPv6に切り替えました"
 						;;
 
 					3)
@@ -20587,7 +20587,7 @@ EOF
 				# 現在のシステムのタイムゾーンを取得する
 				local timezone=$(current_timezone)
 
-				# 現在のシステム時刻を取得します
+				# 現在のシステム時刻を取得する
 				local current_time=$(date +"%Y-%m-%d %H:%M:%S")
 
 				# タイムゾーンと時間を表示する
@@ -21639,7 +21639,7 @@ echo "------------------------"
 echo -e "${gl_zi}V.PS 月額 6.9 ドル 東京ソフトバンク 2 コア 1G メモリ 20G ハードドライブ 月額 1T トラフィック${gl_bai}"
 echo -e "${gl_bai}URL：https://vps.hosting/cart/tokyo-cloud-kvm-vps/?id=148&?affid=1355&?affid=1355${gl_bai}"
 echo "------------------------"
-echo -e "${gl_kjlan}さらに人気のある VPS オファー${gl_bai}"
+echo -e "${gl_kjlan}さらに人気のある VPS セール${gl_bai}"
 echo -e "${gl_bai}ウェブサイト：https://kejilion.pro/topvps/${gl_bai}"
 echo "------------------------"
 echo ""
@@ -21926,7 +21926,7 @@ echo "ビデオ紹介: https://www.bilibili.com/video/BV1ib421E7it?t=0.1"
 echo "以下は、k コマンドの参考使用例です。"
 echo "スクリプトkを開始します"
 echo "パッケージをインストールします k install nano wget | k ナノ wget を追加 | nano wgetをインストールします"
-echo "パッケージをアンインストールします。 k 削除 nano wget | kデルナノwget | nano wget をアンインストールする | nano wgetをアンインストールします"
+echo "パッケージをアンインストールします。 k 削除 nano wget | kデルナノwget | k nano wget をアンインストールする | nano wgetをアンインストールします"
 echo "システム k アップデートを更新 | kアップデート"
 echo "クリーン系ジャンククリーン |きれいだ"
 echo "システムパネルを再度取り付けます。 k再インストール"
